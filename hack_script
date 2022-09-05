@@ -1,0 +1,10 @@
+#!/bin/bash
+
+attempt=100
+while [[ $attempt > 0 ]]
+do
+curl http://localhost:5000/ &
+let "attempt = attempt - 1"
+done
+
+echo "done"

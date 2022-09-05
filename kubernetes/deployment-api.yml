@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-flask-deployment
+  labels:
+    app: my-test-mission
+    env: prod
+    owner: OznobMihail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: api
+  template:
+    metadata:
+      labels:
+        project: api
+    spec:
+      containers:
+        - name: api
+          image: messermih/k8sflask:latest
+          ports:
+            - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-api
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector: 
+    project: api
+  sessionAffinity: None
+  type: ClusterIP
